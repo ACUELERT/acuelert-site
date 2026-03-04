@@ -7,12 +7,12 @@
     },
     {
       "source": "/t/:id",
-      "destination": "/open.html?tournament=:id",
+      "destination": "/open?tournament=:id",
       "permanent": false
     },
     {
       "source": "/s/:id",
-      "destination": "/open.html?series=:id",
+      "destination": "/open?series=:id",
       "permanent": false
     }
   ]
