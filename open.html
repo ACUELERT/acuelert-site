@@ -1,51 +1,77 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Open AcueLERT</title>
+<head>
+<meta charset="UTF-8" />
+<title>AcueLERT</title>
 
-    <!-- Change these later when you have store links -->
-    <script>
-      // ✅ Customize these later
-      const IOS_STORE_URL = "https://acuelert.app"; // replace with App Store URL later
-      const ANDROID_STORE_URL = "https://acuelert.app"; // replace with Play Store URL later
+<script>
+function openApp() {
 
-      // Your app’s deep link / universal link target
-      // You can include a path/query and the app should open it if installed
-      const targetPath = window.location.search || ""; // keeps query string
-      const universalLink = `https://acuelert.app/${targetPath ? "?" + targetPath.replace("?", "") : ""}`;
+  const params = new URLSearchParams(window.location.search);
 
-      function isIOS() {
-        return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      }
-      function isAndroid() {
-        return /Android/.test(navigator.userAgent);
-      }
+  const tournament = params.get("tournament");
+  const series = params.get("series");
 
-      // Try to open via universal link first
-      // If it doesn't open, fallback to store (or your placeholder)
-      window.onload = () => {
-        const start = Date.now();
+  let deepLink = "acuelert://";
 
-        // Attempt open
-        window.location.href = universalLink;
+  if (tournament) {
+    deepLink = "acuelert://t/" + tournament;
+  }
 
-        // Fallback after a short delay (typical pattern)
-        setTimeout(() => {
-          // If user is still on this page after ~1.5s, assume app didn't open
-          if (Date.now() - start < 2000) {
-            if (isIOS()) window.location.href = IOS_STORE_URL;
-            else if (isAndroid()) window.location.href = ANDROID_STORE_URL;
-            else window.location.href = "https://acuelert.app/";
-          }
-        }, 1500);
-      };
-    </script>
-  </head>
+  if (series) {
+    deepLink = "acuelert://s/" + series;
+  }
 
-  <body style="background:black;color:white;font-family:sans-serif;text-align:center;padding-top:80px">
-    <h1>Opening AcueLERT…</h1>
-    <p>If nothing happens, you’ll be redirected.</p>
-  </body>
+  // Attempt to open the app
+  window.location = deepLink;
+
+  // If app not installed → redirect to store
+  setTimeout(function() {
+
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+    if (/android/i.test(ua)) {
+      window.location = "https://play.google.com/store/apps/details?id=com.acuelert.app";
+    } else {
+      window.location = "https://apps.apple.com/app/idYOUR_APP_ID";
+    }
+
+  }, 1500);
+}
+
+window.onload = openApp;
+</script>
+
+<style>
+body{
+  background:#000;
+  color:white;
+  font-family:sans-serif;
+  text-align:center;
+  padding-top:120px;
+}
+a{
+  color:#4ea3ff;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>AcueLERT</h1>
+
+<p>Opening the app...</p>
+
+<p>If nothing happens:</p>
+
+<p>
+<a href="https://apps.apple.com">Download on App Store</a>
+</p>
+
+<p>
+<a href="https://play.google.com">Download on Google Play</a>
+</p>
+
+</body>
 </html>
