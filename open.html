@@ -1,11 +1,123 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>AcueLERT</title>
 
+<style>
+
+:root{
+  --bg:#000;
+  --card:#070707;
+  --text:#ffffff;
+  --muted:#9ca3af;
+
+  --pink:#ff2aa5;
+  --blue:#2f7bff;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:20px;
+}
+
+.container{
+  width:100%;
+  max-width:520px;
+  text-align:center;
+}
+
+.title{
+  font-size:42px;
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+.subtitle{
+  color:var(--muted);
+  margin-bottom:30px;
+}
+
+.card{
+  background:var(--card);
+  border:2px solid var(--blue);
+  padding:28px;
+  border-radius:16px;
+}
+
+.badge{
+  display:inline-block;
+  background:var(--pink);
+  padding:6px 14px;
+  font-size:12px;
+  font-weight:700;
+  transform:skewX(-18deg);
+  margin-bottom:18px;
+}
+
+.badge span{
+  display:inline-block;
+  transform:skewX(18deg);
+}
+
+.status{
+  font-size:18px;
+  margin-bottom:8px;
+}
+
+.note{
+  font-size:14px;
+  color:var(--muted);
+  margin-bottom:24px;
+}
+
+.buttons{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.btn{
+  display:block;
+  padding:12px;
+  font-weight:700;
+  text-decoration:none;
+  border-radius:10px;
+}
+
+.btn-play{
+  background:var(--blue);
+  color:white;
+}
+
+.btn-ios{
+  border:2px solid var(--pink);
+  color:var(--pink);
+}
+
+.footer{
+  margin-top:18px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+</style>
+
 <script>
-function openApp() {
+
+function openApp(){
 
   const params = new URLSearchParams(window.location.search);
 
@@ -14,64 +126,79 @@ function openApp() {
 
   let deepLink = "acuelert://";
 
-  if (tournament) {
+  if(tournament){
     deepLink = "acuelert://t/" + tournament;
+    document.getElementById("status").textContent =
+      "Opening tournament " + tournament + "...";
   }
 
-  if (series) {
+  if(series){
     deepLink = "acuelert://s/" + series;
+    document.getElementById("status").textContent =
+      "Opening series " + series + "...";
   }
 
-  // Attempt to open the app
-  window.location = deepLink;
+  window.location.href = deepLink;
 
-  // If app not installed → redirect to store
-  setTimeout(function() {
+  setTimeout(function(){
 
     const ua = navigator.userAgent || navigator.vendor || window.opera;
 
-    if (/android/i.test(ua)) {
-      window.location = "https://play.google.com/store/apps/details?id=com.acuelert.app";
-    } else {
-      window.location = "https://apps.apple.com/app/idYOUR_APP_ID";
+    if(/android/i.test(ua)){
+      window.location.href =
+        "https://play.google.com/store/apps/details?id=com.acuelert.app";
     }
 
-  }, 1500);
+  },1500);
+
 }
 
-window.onload = openApp;
+window.onload=openApp;
+
 </script>
-
-<style>
-body{
-  background:#000;
-  color:white;
-  font-family:sans-serif;
-  text-align:center;
-  padding-top:120px;
-}
-a{
-  color:#4ea3ff;
-}
-</style>
 
 </head>
 
 <body>
 
-<h1>AcueLERT</h1>
+<div class="container">
 
-<p>Opening the app...</p>
+<div class="title">AcueLERT</div>
+<div class="subtitle">Find pool tournaments near you.</div>
 
-<p>If nothing happens:</p>
+<div class="card">
 
-<p>
-<a href="https://apps.apple.com">Download on App Store</a>
-</p>
+<div class="badge"><span>OPENING</span></div>
 
-<p>
-<a href="https://play.google.com">Download on Google Play</a>
-</p>
+<div id="status" class="status">
+Opening the app...
+</div>
+
+<div class="note">
+If the app does not open, download it below.
+</div>
+
+<div class="buttons">
+
+<a class="btn btn-play"
+href="https://play.google.com/store/apps/details?id=com.acuelert.app">
+Download on Google Play
+</a>
+
+<a class="btn btn-ios"
+href="/">
+App Store — Coming Soon
+</a>
+
+</div>
+
+</div>
+
+<div class="footer">
+acuelert.app
+</div>
+
+</div>
 
 </body>
 </html>
