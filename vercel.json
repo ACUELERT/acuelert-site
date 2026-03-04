@@ -1,18 +1,19 @@
 {
-  "headers": [
+  "redirects": [
     {
-      "source": "/.well-known/apple-app-site-association",
-      "headers": [
-        { "key": "Content-Type", "value": "application/json" },
-        { "key": "Content-Disposition", "value": "inline" }
-      ]
+      "source": "/open",
+      "destination": "/open.html",
+      "permanent": false
     },
     {
-      "source": "/.well-known/assetlinks.json",
-      "headers": [
-        { "key": "Content-Type", "value": "application/json" },
-        { "key": "Content-Disposition", "value": "inline" }
-      ]
+      "source": "/t/:id",
+      "destination": "/open.html?tournament=:id",
+      "permanent": false
+    },
+    {
+      "source": "/s/:id",
+      "destination": "/open.html?series=:id",
+      "permanent": false
     }
   ]
 }
